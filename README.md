@@ -27,14 +27,20 @@ Observability typically refers to telemetry produced by services and is often di
 * **Logging** provides insight into application-specific messages emitted by processes.
 
  
-> As of May 2020, out of 3 telemetry types - OpenTelemetry doesn't support Logging yet. So until then we have to use OpenCensus for logging. Once OpenTelemetry supports logging this repository and doc will be updated to use OpenTelemetry instead of OpenCensus.
+> Note: As of May 2020, out of 3 telemetry types - OpenTelemetry doesn't support Logging yet. So until then we have to use OpenCensus for logging. Once OpenTelemetry supports logging this repository and doc will be updated to use OpenTelemetry instead of OpenCensus.
 
 These verticals are tightly interconnected. **Metrics** can be used to pinpoint, for example, a subset of misbehaving **traces**. **Logs** associated with those traces could help to find the root cause of this behaviour. And then new **metrics** can be configured, based on this discovery, to catch this issue earlier next time. Other verticals exist (continuous profiling, production debugging, etc.), however traces, metrics, and logs are the three most well adopted across the industry.
 
+### **Things to consider**
+
+- The minimum supported python version for OpenTelemetry is 3.7.3	
+    - Code in this repo was tested on Databricks runtime 6.4 which supports python version 3.7.3
+    - OpenTelemetry doesn't work on Databricks runtime 5.5 LTS, this runtime only supports python version 3.5.2	
+- We have the ability to add custom dimensions to add more meaning and customised attributes to the logs.
 
 ### **Usage**
 
-Following is the OpenTelemetry python azure monitor package. This installs opentelemetry-sdk and opentelemetry-api.
+Following is the OpenTelemetry python azure monitor package. This implicitly installs opentelemetry-sdk and opentelemetry-api.
 
 ````python
 pip install opentelemetry-azure-monitor
@@ -44,15 +50,8 @@ Following is the OpenCensus python azure monitor package.
 ````python
 pip install opencensus-ext-azure
 ````
-> Note: If using databricks then instead of pip install the above PyPi libraries to databricks clusters.
- 
+> Note: If using databricks, instead of pip install add the above PyPi libraries to databricks clusters.
 
-### **Things to consider**
-
-- The minimum supported python version for OpenTelemetry is 3.7.3	
-    - Code in this repo was tested on Databricks runtime 6.4 which supports python version 3.7.3
-    - OpenTelemetry doesn't work on Databricks runtime 5.5 LTS, this runtime only supports python version 3.5.2	
-- We have the ability to add custom dimensions to add more meaning and custom attributes to the logs.
 
 
 ### **Reference**
