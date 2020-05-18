@@ -54,7 +54,7 @@ pip install opencensus-ext-azure
 #### **Define logger**
 > *set_logger.py* uses azure key vault and databricks as an example. But with minor modifications this can be used in any apache spark application and can use any secret or key management tool.
 
-Within this repository there is a script named [set_logger.py](https://github.com/subashsivaji/apache-spark-opentelemetry/blob/fe5b8af70f36d352ace26e8dbfc03b798aa3aa07/set_logger.py). This script encapsulates some of initialisation tasks that are needed to link Apache Spark/databricks and Azure Monitor such as,
+Within this repository there is a script named [set_logger.py](set_logger.py). This script encapsulates some of initialisation tasks that are needed to link Apache Spark/databricks and Azure Monitor such as,
 - import necessary modules
 - define OpenTelemetry azure monitor exporter
 - link databricks and azure monitor using instrumentation key stored in azure key vault.
@@ -65,12 +65,21 @@ set_logger can be a notebook which can be invoked in another databricks notebook
 Once set_logger is defined we can use any [logger](https://docs.python.org/3.7/library/logging.html#logging.Logger) methods such as `logger.info`, `logger.warning`, `logger.exception`, `logger.critical` etc.
 
 #### **Example logger usage**
-Within this repository there is a script named [example_logger_usage.py](https://github.com/subashsivaji/apache-spark-opentelemetry/blob/fe5b8af70f36d352ace26e8dbfc03b798aa3aa07/example_logger_usage.py).
+Within this repository there is a script named [example_logger_usage.py](example_logger_usage.py).
 
 This invokes set_logger script/notebook and provides examples on how to logger methods.
 
-Following is a example screenshot on how the logs would look like in Azure Monitor logs
-![alt text](screenshot_azure_monitor_log_datarbicks.png "")
+Following is a example screenshot on how the logs would look like in Azure Monitor logs.
+In the image spark_script, spark_version and cluster_id are custom dimensions that we defined in set_logger. We have the ability to filter the logs on specific custom dimension that we have defined either using *Kusto Query Language* or a filter in visualisation.
+
+Example of all severity levels in Azure Monitor logs:
+![](screenshot_azure_monitor_log_datarbicks.png)
+
+Example of an exception in Azure Monitor logs:
+![](screenshot_azure_monitor_log_exception.png)
+
+Below is another view in Azure Monitor (under Application Insights failures), in case of any errors how the stack trace and error messages are logged into Azure Monitor. In the screenshot below we filter on custom dimension spark script.
+![](screenshot_azure_monitor_appinsight_failures.png)
 
 ### **Reference**
 
