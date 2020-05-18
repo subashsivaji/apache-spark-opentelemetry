@@ -70,7 +70,7 @@ Within this repository there is a script named [example_logger_usage.py](https:/
 This invokes set_logger script/notebook and provides examples on how to logger methods.
 
 Following is a example screenshot on how the logs would look like in Azure Monitor logs
-:::image type="content" source="screenshot_azure_monitor_log_datarbicks.png" alt-text="":::
+![alt text](screenshot_azure_monitor_log_datarbicks.png "")
 
 ### **Reference**
 
