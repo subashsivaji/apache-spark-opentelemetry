@@ -9,7 +9,8 @@ instrumentation_key = dbutils.secrets.get(scope = "secretscope-keyvault", key = 
 
 ## refer https://docs.python.org/3.7/library/logging.html#logging.getLogger
 ## if nothing is specified within getLogger() function the name of the root
-logger = logging.getLogger("apache spark")
+## __name__ is the module’s name in the Python package namespace.
+logger = logging.getLogger(__name__)
 
 ## refer https://docs.python.org/3.7/library/logging.html#logging.Logger.setLevel
 ## set logger level to DEBUG so that anything above this level such as INFO, WARNING, CRITICAL gets logged
