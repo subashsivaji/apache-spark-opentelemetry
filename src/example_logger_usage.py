@@ -1,5 +1,5 @@
 # Databricks notebook source
-# MAGIC %run ../config/set_logger_v5
+# MAGIC %run ../config/set_logger
 
 # COMMAND ----------
 

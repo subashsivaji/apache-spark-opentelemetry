@@ -28,7 +28,8 @@ notecontext = json.loads(dbutils.notebook.entry_point.getDbutils().notebook().ge
 def custom_dimension(envelope):
     envelope.data.baseData.properties['spark_script'] = notecontext['extraContext']['notebook_path'],
     envelope.data.baseData.properties['cluster_id'] = notecontext['tags']['clusterId'],
-    envelope.data.baseData.properties['spark_version'] = spark.conf.get("spark.databricks.clusterUsageTags.sparkVersion")
+    envelope.data.baseData.properties['spark_version'] = spark.conf.get("spark.databricks.clusterUsageTags.sparkVersion"),
+    envelope.tags['ai.cloud.role'] = 'pg-adb-28q' ## this will be cloud_RoleName in Azure monitor
     return True
 
 ## adding the custom dimension to the logger
