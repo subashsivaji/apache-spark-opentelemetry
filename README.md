@@ -2,13 +2,13 @@
 
 ### **Overview**
 
-> **Note:** We previously used [AppInsights SDK for Python](https://github.com/microsoft/ApplicationInsights-Python) to send application logs from apache spark/databricks application. The reason to use OpenTelemetry/Opencensus is because [AppInsights SDK for Python](https://github.com/microsoft/ApplicationInsights-Python) is deprecated and is no longer maintained or supported by Microsoft. Microsoft is a active contributor to OpenTelemetry project.
+> **Note:** We previously used [AppInsights SDK for Python](https://github.com/microsoft/ApplicationInsights-Python) to send application logs from apache spark/databricks application. The reason to use OpenTelemetry/Opencensus is because [AppInsights SDK for Python](https://github.com/microsoft/ApplicationInsights-Python) is deprecated and is no longer maintained or supported by Microsoft.
 
 **What is OpenTelemetry?**
 
 OpenTelemetry provides the libraries, agents, and other components that you need to capture telemetry from your services so that you can better observe, manage, and debug them. Specifically, OpenTelemetry captures metrics, distributed traces, resource metadata, and logs (logging support is incubating now) from your applications and then sends this data to backend like Azure Monitor, Google Cloud Monitoring, Google Cloud Trace, Prometheus, Jaeger and [others](https://opentelemetry.io/registry/?s=exporter).
 
-OpenTelemetry is a *Cloud Native Computing Foundation* Sandbox member, formed through a merger of the OpenTracing and OpenCensus projects. The project is contributed by Google, Microsoft
+OpenTelemetry is a *Cloud Native Computing Foundation* Sandbox member, formed through a merger of the OpenTracing and OpenCensus projects. The project is contributed by Google, Microsoft and others.
 
 > **Why we need OpenCensus?** OpenCensus will be superseded by OpenTelemetry in coming months. However, OpenTelemetry does not initially support **logging**, though it will be incorporated over time. So until then for **logging** purpose we still need to use OpenCensus libraries. [Announcing OpenTelemetry: the merger of OpenCensus and OpenTracing](https://cloudblogs.microsoft.com/opensource/2019/05/23/announcing-opentelemetry-cncf-merged-opencensus-opentracing/)
 
@@ -78,13 +78,21 @@ Within this repository there is a script named [example_logger_usage.py](src/exa
 
 This invokes set_logger script/notebook and provides examples on how to logger methods.
 
-Following is a example screenshot on how the logs would look like in Azure Monitor logs.
+Following is a example screenshot on how the logs would look like in Azure Monitor.
 In the image spark_script, spark_version and cluster_id are custom dimensions that we defined in set_logger. We have the ability to filter the logs on specific custom dimension that we have defined either using *Kusto Query Language* or a filter in visualisation.
 
-Example of all severity levels in Azure Monitor logs:
+````sql
+# sample kusto query language to query azure monitor
+traces | union exceptions
+| where timestamp between (datetime('2020-06-05 00:00:00') .. datetime('2020-06-05 10:00:00'))
+| project timestamp, cloud_RoleName, message = iff(message != '', message, outerMessage), customDimensions.spark_script, customDimensions.lineNumber, severityLevel, itemType, type, problemId, customDimensions.cluster_id, customDimensions.spark_version
+| order by timestamp desc
+````
+
+##### Example of all severity levels in Azure Monitor logs:
 ![](img/screenshot_azure_monitor_log_databricks.png)
 
-Example of an exception in Azure Monitor logs:
+##### Example of an exception in Azure Monitor logs:
 ![](img/screenshot_azure_monitor_log_exception.png)
 
 Below is another view in Azure Monitor (under Application Insights failures), in case of any errors how the stack trace and error messages are logged into Azure Monitor. In the screenshot below we filter on custom dimension spark script.
